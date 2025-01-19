@@ -1,0 +1,212 @@
+<h1>Guess the Color!</h1>
+<div id="color-box"></div>
+<div id="options">
+  <button class="color-option"></button>
+  <button class="color-option"></button>
+  <button class="color-option"></button>
+  <button class="color-option"></button>
+</div>
+<p id="result"></p>
+  #color-box {
+    width: 300px;
+    height: 150px;
+    background-color: rgb(255, 0, 0);
+    margin: 20px auto;
+  }
+  .color-option {
+    width: 100px;
+    height: 50px;
+    margin: 10px;
+  }  const colors = [
+    'rgb(255, 0, 0)',
+    'rgb(0, 255, 0)',
+    'rgb(0, 0, 255)',
+    'rgb(255, 255, 0)'
+  ];
+
+  const colorBox = document.getElementById('color-box');
+  const options = document.querySelectorAll('.color-option');
+  const result = document.getElementById('result');
+
+  let correctColor = colors[Math.floor(Math.random() * colors.length)];
+  colorBox.style.backgroundColor = correctColor;
+
+  for (let i = 0; i < options.length; i++) {
+    options[i].style.backgroundColor = colors[i];
+    options[i].addEventListener('click', function () {
+      if (this.style.backgroundColor === correctColor) {
+        result.textContent = "Correct!";
+      } else {
+        result.textContent = "Wrong! Try again.";
+      }
+    });
+  }<h1>Match the Colors!</h1>
+<div id="color-grid"></div>
+<p id="pairs-found">Pairs Found: 0</p>  #color-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 100px);
+    grid-gap: 10px;
+    margin: 20px auto;
+  }
+  .color-box {
+    width: 100px;
+    height: 100px;
+    background-color: #ccc;
+    cursor: pointer;
+  }  const colorPairs = ['#FF5733', '#33FF57', '#5733FF', '#F33F57', '#3FF5A1', '#F5733B'];
+  let selectedColors = [];
+  let matchedPairs = 0;
+  const colorGrid = document.getElementById('color-grid');
+  const pairsFound = document.getElementById('pairs-found');
+
+  // Create grid
+  for (let i = 0; i < colorPairs.length; i++) {
+    const div = document.createElement('div');
+    div.classList.add('color-box');
+    div.style.backgroundColor = colorPairs[i];
+    div.dataset.color = colorPairs[i];
+    colorGrid.appendChild(div);
+  }
+
+  colorGrid.addEventListener('click', function (e) {
+    if (e.target.classList.contains('color-box') && selectedColors.length < 2) {
+      e.target.style.backgroundColor = e.target.dataset.color;
+      selectedColors.push(e.target);
+
+      if (selectedColors.length === 2) {
+        if (selectedColors[0].dataset.color === selectedColors[1].dataset.color) {
+          matchedPairs++;
+          pairsFound.textContent = `Pairs Found: ${matchedPairs}`;
+          selectedColors = [];
+        } else {
+          setTimeout(() => {
+            selectedColors[0].style.backgroundColor = '#ccc';
+            selectedColors[1].style.backgroundColor = '#ccc';
+            selectedColors = [];
+          }, 1000);
+        }
+      }
+    }
+  });<h1>Pick the Color!</h1>
+<div id="color-box"></div>
+<div id="color-options">
+  <button class="color-choice"></button>
+  <button class="color-choice"></button>
+  <button class="color-choice"></button>
+  <button class="color-choice"></button>
+</div>
+<p id="feedback"></p>  const colors = ['#FF5733', '#33FF57', '#5733FF', '#F33F57'];
+  let correctColor = colors[Math.floor(Math.random() * colors.length)];
+  const colorBox = document.getElementById('color-box');
+  const options = document.querySelectorAll('.color-choice');
+  const feedback = document.getElementById('feedback');
+
+  colorBox.style.backgroundColor = correctColor;
+
+  for (let i = 0; i < options.length; i++) {
+    options[i].style.backgroundColor = colors[i];
+    options[i].addEventListener('click', function () {
+      if (this.style.backgroundColor === correctColor) {
+        feedback.textContent = "You chose the correct color!";
+      } else {
+        feedback.textContent = "Wrong! Try again.";
+      }
+    });
+  }  #color-display {
+    width: 300px;
+    height: 150px;
+    margin: 20px auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 24px;
+    color: #fff;
+    text-align: center;
+    border: 2px solid #000;
+  }
+  #quiz-result {
+    margin-top: 20px;
+    font-size: 20px;
+  }  const colorCodes = [
+    { color: '#FF5733', code: 'rgb(255, 87, 51)' },
+    { color: '#33FF57', code: 'rgb(51, 255, 87)' },
+    { color: '#5733FF', code: 'rgb(87, 51, 255)' },
+    { color: '#F33F57', code: 'rgb(243, 63, 87)' }
+  ];
+
+  let currentColor = colorCodes[Math.floor(Math.random() * colorCodes.length)];
+  const colorDisplay = document.getElementById('color-display');
+  const colorCodeDisplay = document.getElementById('color-code');
+  const userAnswer = document.getElementById('user-answer');
+  const submitButton = document.getElementById('submit-answer');
+  const quizResult = document.getElementById('quiz-result');
+
+  colorDisplay.style.backgroundColor = currentColor.color;
+  colorCodeDisplay.textContent = `What is the color code for ${currentColor.color}?`;
+
+  submitButton.addEventListener('click', function () {
+    if (userAnswer.value === currentColor.code) {
+      quizResult.textContent = "Correct!";
+    } else {
+      quizResult.textContent = "Wrong! Try again.";
+    }
+    userAnswer.value = '';
+  });  const colors = ['#FF5733', '#33FF57', '#5733FF', '#F33F57'];
+  let sequence = [];
+  let playerSequence = [];
+  let currentIndex = 0;
+  const colorSequence = document.getElementById('color-sequence');
+  const playerInput = document.getElementById('player-input');
+  const gameResult = document.getElementById('game-result');
+
+  // Generate a random sequence
+  function generateSequence() {
+    const randomColor = colors[Math.floor(Math.random() * colors.length)];
+    sequence.push(randomColor);
+    displaySequence();
+  }
+
+  // Display the sequence to the player
+  function displaySequence() {
+    colorSequence.innerHTML = '';
+    for (let color of sequence) {
+      const div = document.createElement('div');
+      div.classList.add('memory-box');
+      div.style.backgroundColor = color;
+      colorSequence.appendChild(div);
+    }
+    // Show sequence for 2 seconds and then hide it
+    setTimeout(() => {
+      document.querySelectorAll('.memory-box').forEach(box => {
+        box.classList.remove('active');
+      });
+      playerInput.innerHTML = '';
+    }, 2000);
+  }
+
+  // Listen for player clicks
+  colorSequence.addEventListener('click', function (e) {
+    if (e.target.classList.contains('memory-box')) {
+      playerSequence.push(e.target.style.backgroundColor);
+      e.target.classList.add('active');
+      if (playerSequence.length === sequence.length) {
+        checkSequence();
+      }
+    }
+  });
+
+  function checkSequence() {
+    for (let i = 0; i < playerSequence.length; i++) {
+      if (playerSequence[i] !== sequence[i]) {
+        gameResult.textContent = "Game Over! Try again.";
+        playerSequence = [];
+        return;
+      }
+    }
+    gameResult.textContent = "Correct! New round starting...";
+    playerSequence = [];
+    currentIndex++;
+    setTimeout(generateSequence, 1000);
+  }
+
+  generateSequence(); // Start the first round
